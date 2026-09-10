@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>คู่มืออุปกรณ์ไฟฟ้า | Electrical Guide</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#667085;--primary:#1769ff;--primary2:#0b47b7;--danger:#d92d20;--line:#e4e7ec;--shadow:0 12px 35px rgba(16,24,40,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,#071b3a,#1769ff);color:white;padding:46px 20px 34px}
+.hero{max-width:1180px;margin:auto}.hero h1{font-size:clamp(30px,5vw,52px);margin:0 0 10px}.hero p{margin:0;opacity:.9;font-size:18px}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 4px 15px rgba(0,0,0,.05)}
+.nav-inner{max-width:1180px;margin:auto;display:flex;gap:8px;overflow:auto;padding:10px 14px}
+.nav-inner button{white-space:nowrap;border:0;background:#f2f4f7;color:#344054;padding:10px 15px;border-radius:999px;cursor:pointer;font-weight:700}
+.nav-inner button.active,.nav-inner button:hover{background:var(--primary);color:white}
+main{max-width:1180px;margin:30px auto;padding:0 16px}.section{display:none}.section.active{display:block}
+.section-title{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:10px 0 22px}.section-title h2{margin:0;font-size:30px}.section-title p{margin:0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+.card-img{height:175px;background:#eef4ff;display:flex;align-items:center;justify-content:center}
+.card-img svg{width:135px;height:135px}.card-body{padding:18px}.card h3{margin:0 0 8px;font-size:21px}.card p{margin:7px 0;color:#475467;line-height:1.6}
+.badge{display:inline-block;background:#eaf2ff;color:#175cd3;padding:5px 9px;border-radius:8px;font-size:12px;font-weight:800}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:14px}.info div{background:#f8fafc;padding:11px;border-radius:12px}.info b{display:block;font-size:12px;color:var(--muted);margin-bottom:3px}
+.notice{padding:18px;border-radius:16px;background:#fff7ed;border:1px solid #fed7aa;margin:20px 0;line-height:1.7}.danger{background:#fef3f2;border-color:#fecdca}.safe{background:#ecfdf3;border-color:#abefc6}
+.search{margin:24px 0;display:flex;gap:10px}.search input{width:100%;padding:14px 17px;border:1px solid var(--line);border-radius:14px;font-size:16px;outline:none}.search input:focus{border-color:var(--primary);box-shadow:0 0 0 3px #dbe8ff}
+footer{margin-top:45px;background:#101828;color:#d0d5dd;text-align:center;padding:28px 15px}
+@media(max-width:600px){header{padding:34px 16px}.card-img{height:145px}.section-title{display:block}.section-title p{margin-top:5px}}
+</style>
+</head>
+<body>
+<header><div class="hero"><div style="font-weight:800;letter-spacing:.5px">⚡ ELECTRICAL GUIDE</div><h1>คู่มืออุปกรณ์ทางไฟฟ้า</h1><p>รู้จักอุปกรณ์ • ใช้งานอย่างไร • ติดตั้งตรงไหน • ข้อควรระวัง</p></div></header>
+
+<nav><div class="nav-inner" id="menu"></div></nav>
+
+<main>
+<div class="search"><input id="search" placeholder="🔎 ค้นหาอุปกรณ์ เช่น สายไฟ เต้ารับ เบรกเกอร์..."></div>
+
+<section id="home" class="section active">
+<div class="section-title"><div><h2>ภาพรวมหมวดหมู่</h2><p>เลือกเมนูด้านบนเพื่อดูรายละเอียด</p></div></div>
+<div class="grid" id="categoryCards"></div>
+<div class="notice safe">💡 <b>หลักสำคัญ:</b> งานติดตั้งไฟฟ้าควรเลือกอุปกรณ์ให้ตรงพิกัดแรงดันและกระแส ใช้การป้องกันกระแสเกินและไฟรั่วอย่างเหมาะสม และตัดแหล่งจ่ายก่อนทำงานทุกครั้ง</div>
+</section>
+
+<div id="sections"></div>
+</main>
+
+<footer>⚡ Electrical Guide — เว็บไซต์ความรู้พื้นฐานด้านอุปกรณ์ไฟฟ้า | ใช้เพื่อการศึกษา</footer>
+
+<script>
+const icon = {
+wire:`<svg viewBox="0 0 150 150"><path d="M25 75 C45 25 105 25 125 75 C105 125 45 125 25 75Z" fill="#1769ff"/><path d="M38 75 C55 42 95 42 112 75 C95 108 55 108 38 75Z" fill="#f9fafb"/><path d="M48 75h54" stroke="#f59e0b" stroke-width="9" stroke-linecap="round"/></svg>`,
+socket:`<svg viewBox="0 0 150 150"><rect x="30" y="18" width="90" height="114" rx="18" fill="#fff" stroke="#667085" stroke-width="5"/><circle cx="60" cy="65" r="9" fill="#172033"/><circle cx="90" cy="65" r="9" fill="#172033"/><circle cx="75" cy="92" r="8" fill="#1769ff"/></svg>`,
+switch:`<svg viewBox="0 0 150 150"><rect x="28" y="25" width="94" height="100" rx="15" fill="#fff" stroke="#667085" stroke-width="5"/><path d="M55 92 L98 53" stroke="#1769ff" stroke-width="12" stroke-linecap="round"/><circle cx="55" cy="92" r="7" fill="#172033"/><circle cx="98" cy="53" r="7" fill="#172033"/></svg>`,
+breaker:`<svg viewBox="0 0 150 150"><rect x="35" y="20" width="80" height="110" rx="10" fill="#fff" stroke="#172033" stroke-width="5"/><rect x="59" y="43" width="32" height="45" rx="10" fill="#1769ff"/><path d="M75 52v27" stroke="white" stroke-width="7" stroke-linecap="round"/><text x="75" y="111" text-anchor="middle" font-size="14" font-weight="700">MCB</text></svg>`,
+rccb:`<svg viewBox="0 0 150 150"><rect x="28" y="22" width="94" height="106" rx="10" fill="#fff" stroke="#172033" stroke-width="5"/><rect x="54" y="42" width="42" height="35" rx="7" fill="#1769ff"/><text x="75" y="101" text-anchor="middle" font-size="15" font-weight="700">RCD</text></svg>`,
+lamp:`<svg viewBox="0 0 150 150"><circle cx="75" cy="60" r="34" fill="#ffd76a" stroke="#172033" stroke-width="5"/><path d="M61 88h28M64 98h22M69 108h12" stroke="#172033" stroke-width="6" stroke-linecap="round"/><path d="M75 15V5M28 30l-8-8M122 30l8-8" stroke="#f59e0b" stroke-width="5" stroke-linecap="round"/></svg>`,
+meter:`<svg viewBox="0 0 150 150"><rect x="30" y="22" width="90" height="106" rx="12" fill="#fff" stroke="#172033" stroke-width="5"/><rect x="45" y="38" width="60" height="25" rx="5" fill="#dbe8ff"/><circle cx="75" cy="91" r="23" fill="#1769ff"/><path d="M75 91l14-10" stroke="white" stroke-width="5"/></svg>`,
+appliance:`<svg viewBox="0 0 150 150"><rect x="30" y="22" width="90" height="105" rx="8" fill="#fff" stroke="#667085" stroke-width="5"/><rect x="44" y="38" width="62" height="45" rx="4" fill="#dbe8ff"/><circle cx="52" cy="104" r="6" fill="#1769ff"/><circle cx="75" cy="104" r="6" fill="#1769ff"/></svg>`,
+};
+
+const data = [
+{id:"wire",name:"สายไฟและสายเคเบิล",short:"สายตัวนำสำหรับส่งจ่ายพลังงานไฟฟ้า",items:[
+["สาย THW","wire","ใช้เดินสายภายในอาคารในท่อหรือราง","ติดตั้งจากตู้ไฟไปยังสวิตช์ เต้ารับ และโหลด","ต้องเลือกขนาดให้เหมาะกับกระแสและวิธีเดินสาย"],
+["สาย NYY","wire","สายมีเปลือก เหมาะกับงานเดินสายภายนอก/ฝังดินตามข้อกำหนด","ภายนอกอาคารหรือบริเวณที่ต้องการสายมีเปลือก","ห้ามใช้เกินพิกัดและต้องป้องกันความเสียหายทางกล"],
+["สาย VAF","wire","สายแบนสำหรับงานเดินสายภายในอาคาร","ผนัง/เหนือฝ้า/ในพื้นที่ที่วิธีติดตั้งอนุญาต","ไม่ควรใช้ในบริเวณเปียกชื้นโดยไม่เหมาะสม"]
+]},
+{id:"socket",name:"เต้ารับและปลั๊ก",short:"จุดเชื่อมต่อเครื่องใช้ไฟฟ้ากับระบบจ่ายไฟ",items:[
+["เต้ารับ 2 ขั้ว","socket","จ่ายไฟให้เครื่องใช้ไฟฟ้าทั่วไป","ติดตั้งบนผนังในตำแหน่งที่ใช้งานสะดวก","ห้ามเสียบโหลดเกินพิกัด"],
+["เต้ารับมีสายดิน","socket","เพิ่มทางเดินกระแสผิดปกติลงดินผ่าน PE","จุดใช้งานเครื่องใช้ที่มีโครงโลหะและต้องการสายดิน","ต้องต่อสายดินถูกต้อง ห้ามใช้สาย N แทน PE"]
+]},
+{id:"switch",name:"สวิตช์ไฟ",short:"อุปกรณ์ควบคุมการเปิด–ปิดวงจรไฟฟ้า",items:[
+["สวิตช์ 1 ทาง","switch","ควบคุมหลอดไฟจากจุดเดียว","ติดตั้งใกล้ทางเข้า/ตำแหน่งควบคุมแสงสว่าง","ควรตัดสายเฟส L ไม่ใช่ตัดเฉพาะ N"],
+["สวิตช์ 2 ทาง","switch","ควบคุมหลอดไฟเดียวจาก 2 จุด","เช่น บันไดหรือห้องที่มีทางเข้า 2 ทาง","ต้องต่อสายตามวงจรของสวิตช์ 2 ทางให้ถูกต้อง"]
+]},
+{id:"protection",name:"อุปกรณ์ป้องกันไฟฟ้า",short:"ป้องกันกระแสเกิน ไฟลัดวงจร และไฟรั่ว",items:[
+["MCB","breaker","ตัดวงจรเมื่อเกิดกระแสเกินหรือลัดวงจรตามพิกัด","ติดตั้งในตู้ไฟ/ตู้คอนซูมเมอร์","เลือกค่า In และ curve ให้เหมาะกับวงจร"],
+["RCD / RCCB","rccb","ตรวจจับกระแสไฟรั่วและตัดวงจรเพื่อลดความเสี่ยงไฟดูด","ตู้ไฟ โดยเฉพาะวงจรที่มีความเสี่ยงต่อการสัมผัส","ไม่ใช่อุปกรณ์แทน MCB ต้องมีการป้องกันกระแสเกินด้วย"],
+["ฟิวส์","breaker","ตัดวงจรด้วยลวดฟิวส์เมื่อกระแสเกิน","ตู้/แผงไฟหรืออุปกรณ์ตามชนิดฟิวส์","ต้องใช้ชนิดและพิกัดถูกต้อง ห้ามต่อฟิวส์ด้วยลวดแทน"]
+]},
+{id:"lighting",name:"อุปกรณ์แสงสว่าง",short:"อุปกรณ์สำหรับให้แสงสว่างในพื้นที่ต่าง ๆ",items:[
+["หลอด LED","lamp","เปลี่ยนพลังงานไฟฟ้าเป็นแสง ใช้แทนหลอดแบบเดิมได้หลายงาน","โคมไฟภายในบ้าน อาคาร โรงงาน และพื้นที่ภายนอกตามชนิดโคม","ตรวจแรงดันและกำลังวัตต์ให้ตรงกับอุปกรณ์"]
+]},
+{id:"measurement",name:"เครื่องมือวัดไฟฟ้า",short:"ใช้ตรวจวัดแรงดัน กระแส ความต้านทาน และสัญญาณ",items:[
+["มัลติมิเตอร์","meter","วัดแรงดัน กระแส ความต้านทาน และฟังก์ชันอื่นตามรุ่น","ใช้ตรวจสอบวงจรไฟฟ้าและอิเล็กทรอนิกส์","ตั้งย่านวัดและเสียบสายวัดให้ถูกช่องก่อนวัดทุกครั้ง"]
+]},
+{id:"appliance",name:"เครื่องใช้ไฟฟ้า",short:"อุปกรณ์ที่เปลี่ยนพลังงานไฟฟ้าไปเป็นความร้อน แสง การเคลื่อนที่ ฯลฯ",items:[
+["พัดลม","appliance","เปลี่ยนพลังงานไฟฟ้าเป็นพลังงานกลเพื่อหมุนใบพัด","ภายในบ้าน สำนักงาน หรือพื้นที่ที่เหมาะสม","ห้ามใช้งานสายไฟ/ปลั๊กที่ชำรุดและต้องมีการระบายอากาศเหมาะสม"],
+["เครื่องทำน้ำอุ่น","appliance","ให้ความร้อนแก่น้ำโดยใช้พลังงานไฟฟ้า","ห้องน้ำ โดยต้องติดตั้งตามคู่มือและมาตรฐาน","ควรมีสายดินและ RCD/RCCB ที่เหมาะสม และติดตั้งโดยช่างผู้มีความรู้"]
+]},
+{id:"safety",name:"ข้อห้ามและความปลอดภัย",short:"หลักปฏิบัติเพื่อลดความเสี่ยงไฟดูด ไฟไหม้ และความเสียหาย",items:[
+["ห้ามทำงานขณะมีไฟ","danger","ตัดแหล่งจ่ายและตรวจยืนยันว่าไม่มีแรงดันก่อนทำงาน","ใช้กับงานซ่อม/ติดตั้งทุกประเภท","ใช้ขั้นตอน lockout/tagout ตามความเหมาะสม"],
+["ห้ามใช้สายหรืออุปกรณ์ชำรุด","danger","ลดความเสี่ยงไฟรั่ว ไฟช็อต และไฟไหม้","ตรวจสอบก่อนใช้งาน","เปลี่ยนหรือซ่อมโดยผู้มีความรู้ ไม่พันเทปแก้ปัญหาแบบถาวร"],
+["ห้ามต่อปลั๊กพ่วงเกินพิกัด","danger","ลดการสะสมความร้อนและกระแสเกิน","บ้าน ห้องเรียน สำนักงาน และพื้นที่ใช้งานทั่วไป","ตรวจพิกัดปลั๊กพ่วง สาย และโหลดรวม"]
+]}
+];
+
+const menu=document.getElementById("menu");
+const categoryCards=document.getElementById("categoryCards");
+const sections=document.getElementById("sections");
+
+menu.innerHTML='<button class="active" data-target="home">🏠 หน้าหลัก</button>'+data.map(x=>`<button data-target="${x.id}">${x.name}</button>`).join("");
+
+categoryCards.innerHTML=data.map(x=>`<div class="card" onclick="show('${x.id}')" style="cursor:pointer"><div class="card-img">${icon[x.items[0][1]]}</div><div class="card-body"><span class="badge">${x.items.length} รายการตัวอย่าง</span><h3>${x.name}</h3><p>${x.short}</p></div></div>`).join("");
+
+sections.innerHTML=data.map(cat=>`
+<section id="${cat.id}" class="section">
+<div class="section-title"><div><h2>${cat.name}</h2><p>${cat.short}</p></div></div>
+<div class="grid">${cat.items.map(i=>`
+<article class="card" data-search="${(cat.name+i[0]+i[2]+i[3]+i[4]).toLowerCase()}">
+<div class="card-img">${icon[i[1]]}</div><div class="card-body">
+<span class="badge">${cat.name}</span><h3>${i[0]}</h3>
+<div class="info"><div><b>🔧 ใช้งานอย่างไร</b>${i[2]}</div><div><b>📍 ติดตั้งตรงไหน</b>${i[3]}</div><div><b>⚠️ ข้อควรระวัง</b>${i[4]}</div></div>
+</div></article>`).join("")}</div>
+${cat.id==="safety"?'<div class="notice danger"><b>🚨 หยุดงานทันที</b> หากพบกลิ่นไหม้ ควัน ประกายไฟ สายไฟร้อนผิดปกติ หรืออุปกรณ์เสียหาย และให้ผู้มีความรู้/ช่างไฟฟ้าตรวจสอบ</div>':""}
+</section>`).join("");
+
+function show(id){
+ document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll("#menu button").forEach(b=>b.classList.toggle("active",b.dataset.target===id));
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("#menu button").forEach(b=>b.onclick=()=>show(b.dataset.target));
+
+document.getElementById("search").addEventListener("input",e=>{
+ const q=e.target.value.trim().toLowerCase();
+ document.querySelectorAll(".card[data-search]").forEach(c=>c.style.display=(!q||c.dataset.search.includes(q))?"block":"none");
+ if(q){document.querySelectorAll(".section").forEach(s=>s.classList.add("active"));document.querySelectorAll("#menu button").forEach(b=>b.classList.remove("active"));}
+ else show("home");
+});
+</script>
+</body>
+</html>
